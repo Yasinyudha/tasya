@@ -6,7 +6,7 @@ According to official release of Miami INsar Time-series software in PYthon (Min
 #### 1. Extract file with `extract.py`
 If you process the InSAR with HyP3, the downloaded data must be originally in `.zip` file. Then we must to extract it with `extract.py` with the following command
 ```bash
-python clip_tiff.py
+python extract.py
 ```
 #### 2. Clip the tiff dataset with `clip_tiff.py`
 Then data must be clipped to our AoI (Area of Interest). We give example of what requirement should have before clipped the tiff file in the **geodata** folder, the given example can be done with Google Earth Pro to produce `.kml` or `.kmz` and then converted to `.shp`, `.shx`, etc. Then run following command
