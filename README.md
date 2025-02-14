@@ -15,7 +15,11 @@ python clip_tiff.py
 ```
 #### 3. Delete the tiff dataset with `delete.py`
 If you want to delete the clipped tiff from dataset, use `delete.py` with command
-```python
+```bash
 python delete.py
 ```
 and then run `clip_tiff.py` again to clip the tiff data.
+#### 4. Or, if you want to automatic the process, just write bash command
+```bash
+bash process_data.sh
+```
