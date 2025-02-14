@@ -1,1 +1,1 @@
-Support file for mintpy
+*Support file for mintpy*
