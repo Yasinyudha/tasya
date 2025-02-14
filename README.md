@@ -13,7 +13,7 @@ Then data must be clipped to our AoI (Area of Interest). We give example of what
 ```bash
 python clip_tiff.py
 ```
-#### 3. Delete the tiff dataset with `delete.py`
+#### 3. Delete the tiff dataset with `delete.py` (EXPERIMENTAL)
 If you want to delete the clipped tiff from dataset, use `delete.py` with command
 ```bash
 python delete.py
