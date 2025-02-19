@@ -6,12 +6,12 @@ According to the official release of the Miami InSAR Time-series software in Pyt
 This repository provides support functions for MintPy, such as clipping TIFF images from datasets using a provided `.shp` file, deleting previously clipped TIFF files, and more. To use this script, please follow the steps below:
 
 #### 1. Extract file with `extract.py`
-If you process the InSAR with HyP3, the downloaded data must be originally in `.zip` file. Then we must to extract it with `extract.py` with the following command
+If you process InSAR data with HyP3, the downloaded data will initially be in a `.zip` file. You must extract it using extract.py with the following command:
 ```bash
 python extract.py
 ```
 #### 2. Clip the tiff dataset with `clip_tiff.py`
-Then data must be clipped to our AoI (Area of Interest). We give example of what requirement should have before clipped the tiff file in the **geodata** folder, the given example can be done with Google Earth Pro to produce `.kml` or `.kmz` and then converted to `.shp`, `.shx`, etc. Then run following command
+Next, the data must be clipped to your Area of Interest (AoI). We provide an example of the requirements needed before clipping the TIFF file in the **geodata** folder. The example can be created using Google Earth Pro to generate a `.kml` or `.kmz` file, which can then be converted to `.shp`, `.shx`, and other related formats. Once prepared, run the following command:
 ```bash
 python clip_tiff.py
 ```
