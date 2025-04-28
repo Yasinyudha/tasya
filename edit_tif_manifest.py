@@ -80,25 +80,30 @@ def extract_corners(filename):
 
 
 def change_coor_sys(target_src, filename):
+    """
+        Change coordinates from each file based on given source coordinate system,
+        hence all of the datasets have one uniform coordinate system
+    """
     # Extract coordinate from initial file and then extract it
     coords = extract_corners(filename)
     
+    # Define spatial resolution and their size
     spatial_res = 80.0
     size = (3691, 3053)
+
+    # Obtain their coordinates for Upper Left (ul) and Lower Right (lr)
     X_upper_left = coords.get("Upper Left")[0]
     X_lower_right = spatial_res * size[0] + X_upper_left
 
     Y_upper_left = coords.get("Upper Left")[1]
     Y_lower_right = Y_upper_left - (spatial_res * size[1])
 
-    new_name = os.path.splitext(filename)[0]
-    # os.system(f"gdal_edit.py -a_srs {target_src} -a_ullr {round(X_upper_left)} {round(Y_upper_left)} {round(X_lower_right)} {round(Y_lower_right)} -tr 80 80 {filename}")
-    # os.system(f"gdal_edit.py -tr 80 80 -a_srs \"EPSG:32749\"{filename}")
-    os.system(f"gdalwarp -tr 80 80 -r bilinear {filename} {new_name + '_fixed.tif'}")
+    # gdal_edit command
+    os.system(f"gdal_edit.py -a_srs {target_src} -a_ullr {round(X_upper_left)} {round(Y_upper_left)} {round(X_lower_right)} {round(Y_lower_right)} -tr {spatial_res} {spatial_res} {filename}")
 
 source_folder = "hyp3"
 type_of_file = ["amp", "corr", "dem", "lv_phi", "lv_theta", "unw_phase", "water_mask"]
-COORDINATE_SYSTEM = "EPSG:32749" # This is 49S zone
+COORDINATE_SYSTEM = "EPSG:32749" # This is 49S zone, change it based on your region
 
 for folder in os.listdir(source_folder):
     folder_path = os.path.join(source_folder, folder)
