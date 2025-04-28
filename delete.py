@@ -6,7 +6,7 @@ folder_target = "./hyp3"
 
 for folder_name in os.listdir(folder_target):
     folder_name_path = os.path.join(folder_target, folder_name)
-    list_file_name = [file for file in os.listdir(folder_name_path) if re.search("clipped", file)]
+    list_file_name = [file for file in os.listdir(folder_name_path) if (re.search("clipped", file) or re.search("fixed", file))]
 
     if list_file_name == []:
         print(f"Tidak ada file yang harus dihapus")
