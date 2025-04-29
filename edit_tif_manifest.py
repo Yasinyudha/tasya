@@ -33,7 +33,7 @@ def parse_hms(hms_string):
     else:
         raise ValueError(f"Cannot parse HMS string: {hms_string}")
 
-def extract_corners(filename):
+def extract_corners(target_src, filename):
     # Run gdalinfo and capture the output
     gdalinfo_output = subprocess.check_output(["gdalinfo", filename], text=True)
 
@@ -55,7 +55,7 @@ def extract_corners(filename):
 
     # Set up coordinate transformations
     wgs84 = Proj(init="epsg:4326")    # WGS84 (lat/lon)
-    utm = Proj(init="epsg:32749")     # UTM Zone 49M
+    utm = Proj(init=target_src)     # UTM Zone 49M
 
     corners = {}
     for match in matches:
@@ -85,7 +85,7 @@ def change_coor_sys(target_src, filename):
         hence all of the datasets have one uniform coordinate system
     """
     # Extract coordinate from initial file and then extract it
-    coords = extract_corners(filename)
+    coords = extract_corners(target_src, filename)
     
     # Define spatial resolution and their size
     spatial_res = 80.0
@@ -99,15 +99,17 @@ def change_coor_sys(target_src, filename):
     Y_lower_right = Y_upper_left - (spatial_res * size[1])
 
     # gdal_edit command
-    os.system(f"gdal_edit.py -a_srs {target_src} -a_ullr {round(X_upper_left)} {round(Y_upper_left)} {round(X_lower_right)} {round(Y_lower_right)} -tr {spatial_res} {spatial_res} {filename}")
+    os.system(f"gdal_edit.py -a_srs {target_src} -a_ullr {round(X_upper_left)} {round(Y_upper_left)} {round(X_lower_right)} {round(Y_lower_right)} {filename}")
 
 source_folder = "hyp3"
 type_of_file = ["amp", "corr", "dem", "lv_phi", "lv_theta", "unw_phase", "water_mask"]
 COORDINATE_SYSTEM = "EPSG:32749" # This is 49S zone, change it based on your region
 
 for folder in os.listdir(source_folder):
+
     folder_path = os.path.join(source_folder, folder)
     for file in os.listdir(folder_path):
+
         if file.endswith(".tif"):
             # Check if file matches any type in type_of_file
             if any(t in file for t in type_of_file):
