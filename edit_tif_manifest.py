@@ -100,9 +100,17 @@ def change_coor_sys(target_src, filename):
         Y_lower_right = Y_upper_left - (spatial_res * size[1])
 
         # gdal_edit command
-        os.system(f"gdal_edit.py -a_srs {target_src} -a_ullr {round(X_upper_left)} {round(Y_upper_left)} {round(X_lower_right)} {round(Y_lower_right)} {filename}")
+        os.system(f"gdal_edit.py -a_ullr {round(X_upper_left)} {round(Y_upper_left)} {round(X_lower_right)} {round(Y_lower_right)} {filename}")
     except TypeError:
-        print(f"{filename} can't be handled, return to default its coordinate system")
+        # Obtain their coordinates for Upper Left (ul) and Lower Right (lr)
+        X_upper_left = coords.get("Upper Left")[0]
+        X_lower_right = spatial_res * size[0] + X_upper_left
+
+        Y_upper_left = coords.get("Upper Left")[1]
+        Y_lower_right = Y_upper_left - (spatial_res * size[1])
+
+        os.system(f"gdalwarp -s_srs EPSG:32750 -t_srs {target_src} {filename}")
+        os.system(f"gdal_edit.py -a_ullr {round(X_upper_left)} {round(Y_upper_left)} {round(X_lower_right)} {round(Y_lower_right)} {filename}")
 
 source_folder = "hyp3"
 type_of_file = ["amp", "corr", "dem", "lv_phi", "lv_theta", "unw_phase", "water_mask"]
