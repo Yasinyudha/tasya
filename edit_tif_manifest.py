@@ -11,6 +11,14 @@ def change_coor_sys(target_src, filename):
         Change coordinates from each file based on given source coordinate system,
         hence all of the datasets have one uniform coordinate system
     """
+
+    # Run the gdalinfo command and capture the output
+    gdalinfo_text = subprocess.check_output(["gdalinfo", filename], text=True)[:150]
+
+    is_available = re.findall("50S", gdalinfo_text)
+    if is_available:
+        os.system(f"gdalwarp -s_srs EPSG:32750 -t_srs EPSG:32749 {filename}")
+
     os.system(f"gdal_edit.py -a_srs {target_src} -a_ullr 720606 9293100 1015886 9048860 {filename}")
 
 
