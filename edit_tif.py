@@ -4,7 +4,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 source_folder = "hyp3"
-type_of_file = ["amp", "corr", "dem", "lv_phi", "lv_theta", "unw_phase", "water_mask"]
+type_of_file = ["amp_clipped", "corr_clipped", "dem_clipped", "lv_phi_clipped", "lv_theta_clipped", "unw_phase_clipped", "water_mask_clipped"]
 
 for folder in os.listdir(source_folder):
 

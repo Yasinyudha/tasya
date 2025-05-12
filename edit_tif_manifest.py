@@ -17,13 +17,11 @@ def change_coor_sys(target_src, filename):
 
     is_available = re.findall("50S", gdalinfo_text)
     if is_available:
-        os.system(f"gdalwarp -s_srs EPSG:32750 -t_srs EPSG:32749 {filename}")
-
-    os.system(f"gdal_edit.py -a_srs {target_src} -a_ullr 720606 9293100 1015886 9048860 {filename}")
+        os.system(f"gdalwarp -s_srs EPSG:32750 -t_srs {target_src} {filename}")
 
 
 source_folder = "hyp3"
-type_of_file = ["amp", "corr", "dem", "lv_phi", "lv_theta", "unw_phase", "water_mask"]
+type_of_file = ["amp_clipped", "corr_clipped", "dem_clipped", "lv_phi_clipped", "lv_theta_clipped", "unw_phase_clipped", "water_mask_clipped"]
 COORDINATE_SYSTEM = "EPSG:32749" # This is 49S zone, change it based on your region
 
 for folder in os.listdir(source_folder):

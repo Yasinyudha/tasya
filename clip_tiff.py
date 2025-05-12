@@ -11,12 +11,12 @@ def clip_raster(clip_feature, in_raster, out_raster):
     else:
         print(f"Clip to {os.path.basename(out_raster)}")
 
-    command = f"gdalwarp -s_srs \"EPSG:32749\" -dstnodata 0 -crop_to_cutline -cutline {clip_feature} {in_raster} {out_raster}"
+    command = f"gdalwarp -dstnodata 0 -crop_to_cutline -cutline {clip_feature} {in_raster} {out_raster}"
     os.system(command)
 
 # definisikan kategori file input dan output dalam dataset
-# type_of_file = ["amp", "corr", "dem", "lv_phi", "lv_theta", "unw_phase", "water_mask"]
-type_of_file = ["amp_fixed", "corr_fixed", "dem_fixed", "lv_phi_fixed", "lv_theta_fixed", "unw_phase_fixed", "water_mask_fixed"]
+type_of_file = ["amp", "corr", "dem", "lv_phi", "lv_theta", "unw_phase", "water_mask"]
+# type_of_file = ["amp_fixed", "corr_fixed", "dem_fixed", "lv_phi_fixed", "lv_theta_fixed", "unw_phase_fixed", "water_mask_fixed"]
 type_of_file_output = ["amp_clipped", "corr_clipped", "dem_clipped", "lv_phi_clipped", "lv_theta_clipped", "unw_phase_clipped", "water_mask_clipped"]
 
 # pastikan folder hyp3, mintpy, dan geodata berada dalam satu direktori kerja yang sama
@@ -35,7 +35,7 @@ if os.path.exists(clip_folder):
 
     for folder_name in folder_list_name:
         folder_name_path = os.path.join(folder_path, folder_name)
-        file_name = [file for file in os.listdir(folder_name_path) if (file.endswith("_fixed.tif") and not re.search("_clipped", file))]
+        file_name = [file for file in os.listdir(folder_name_path) if file.endswith("tif")]
 
         for i, file in enumerate(file_name):
             file_path = f"{folder_name_path}/{folder_name}_{type_of_file[i]}.tif"
